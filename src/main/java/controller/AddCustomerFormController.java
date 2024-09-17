@@ -1,6 +1,7 @@
 package controller;
 
 import com.jfoenix.controls.JFXTextField;
+import db.DBConnection;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -11,7 +12,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import model.Customer;
 
 import java.net.URL;
-import java.time.LocalDate;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -19,16 +20,10 @@ import java.util.ResourceBundle;
 public class AddCustomerFormController implements Initializable {
 
     @FXML
-    public DatePicker dpBirthday;
-
-    @FXML
     public ComboBox<String> cmbTitle;
 
     @FXML
     private TableColumn<?, ?> colAddress;
-
-    @FXML
-    private TableColumn<?, ?> colBirthday;
 
     @FXML
     private TableColumn<?, ?> colId;
@@ -64,7 +59,6 @@ public class AddCustomerFormController implements Initializable {
         colId.setCellValueFactory(new PropertyValueFactory<>("id"));
         colName.setCellValueFactory(new PropertyValueFactory<>("name"));
         colAddress.setCellValueFactory(new PropertyValueFactory<>("address"));
-        colBirthday.setCellValueFactory(new PropertyValueFactory<>("birthday"));
         colSalary.setCellValueFactory(new PropertyValueFactory<>("salary"));
 
         ObservableList<String> titleList = FXCollections.observableArrayList();
@@ -83,7 +77,6 @@ public class AddCustomerFormController implements Initializable {
                     txtId.getText(),
                     cmbTitle.getValue()+" "+txtName.getText(),
                     txtAddress.getText(),
-                    dpBirthday.getValue(),
                     Double.parseDouble(txtSalary.getText())
                 )
         );
@@ -108,13 +101,26 @@ public class AddCustomerFormController implements Initializable {
     }
 
     public void reloadCustomerTable(){
+
         ObservableList<Customer> customerObservableList = FXCollections.observableArrayList();
-        customerList.forEach(customer->{
-            customerObservableList.add(customer);
-        });
 
-        tblCustomerDetails.setItems(customerObservableList);
+        try {
+            Connection connection = DBConnection.getInstance().getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM customer");
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()){
+                Customer customer = new Customer(
+                        resultSet.getString("id"),
+                        resultSet.getString("name"),
+                        resultSet.getString("address"),
+                        resultSet.getDouble("salary")
+                );
+                customerObservableList.add(customer);
+                tblCustomerDetails.setItems(customerObservableList);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
-
-
 }
