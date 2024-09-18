@@ -67,6 +67,25 @@ public class AddCustomerFormController implements Initializable {
         titleList.add("MS.");
 
         cmbTitle.setItems(titleList);
+
+        reloadCustomerTable();
+
+        tblCustomerDetails.getSelectionModel().selectedItemProperty().addListener((observableValue, oldVal, newVal) -> {
+            System.out.println("1 : "+observableValue);
+            System.out.println("2 : "+oldVal);
+            System.out.println("3 : "+newVal);
+
+            addValueToText(newVal);
+        });
+
+
+    }
+
+    private void addValueToText(Customer newVal){
+        txtId.setText(newVal.getId());
+        txtName.setText(newVal.getName());
+        txtAddress.setText(newVal.getAddress());
+        txtSalary.setText(String.valueOf(newVal.getSalary()));
     }
 
     @FXML
@@ -123,4 +142,5 @@ public class AddCustomerFormController implements Initializable {
             throw new RuntimeException(e);
         }
     }
+
 }
