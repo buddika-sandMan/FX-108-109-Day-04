@@ -75,7 +75,9 @@ public class AddCustomerFormController implements Initializable {
             System.out.println("2 : "+oldVal);
             System.out.println("3 : "+newVal);
 
-            addValueToText(newVal);
+            if(newVal != null) {
+                addValueToText(newVal);
+            }
         });
 
 
@@ -127,6 +129,18 @@ public class AddCustomerFormController implements Initializable {
 
     @FXML
     void btnDeleteOnAction(ActionEvent event) {
+        try {
+            boolean isDeleted = DBConnection.getInstance().getConnection().createStatement()
+                    .executeUpdate("DELETE FROM customer WHERE id='" + txtId.getText() + "'") > 0;
+
+            if(isDeleted) {
+                new Alert(Alert.AlertType.INFORMATION,"Successfully deleted").show();
+                reloadCustomerTable();
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
 
     }
 
