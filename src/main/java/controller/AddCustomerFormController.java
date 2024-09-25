@@ -91,17 +91,33 @@ public class AddCustomerFormController implements Initializable {
     @FXML
     void btnAddCustomerOnAction(ActionEvent event) {
 
-        customerList.add(
-                new Customer(
-                    txtId.getText(),
-                    cmbTitle.getValue()+" "+txtName.getText(),
-                    txtAddress.getText(),
-                    Double.parseDouble(txtSalary.getText())
-                )
+        Customer customer = new Customer(
+                txtId.getText(),
+                cmbTitle.getValue()+" "+txtName.getText(),
+                txtAddress.getText(),
+                Double.parseDouble(txtSalary.getText())
         );
 
-        reloadCustomerTable();
+        try {
+            String SQL = "INSERT INTO customer VALUES(?,?,?,?)";
+            Connection connection = DBConnection.getInstance().getConnection();
 
+            PreparedStatement preparedStatement = connection.prepareStatement(SQL);
+            preparedStatement.setObject(1, customer.getId());
+            preparedStatement.setObject(2, customer.getName());
+            preparedStatement.setObject(3, customer.getAddress());
+            preparedStatement.setObject(4, customer.getSalary());
+
+            boolean isAdded = preparedStatement.executeUpdate() > 0;
+
+            if(isAdded) {
+                new Alert(Alert.AlertType.CONFIRMATION,"Customer Added").show();
+                reloadCustomerTable();
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @FXML
