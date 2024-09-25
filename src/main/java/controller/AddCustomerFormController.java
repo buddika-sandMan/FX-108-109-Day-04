@@ -52,8 +52,6 @@ public class AddCustomerFormController implements Initializable {
     @FXML
     private JFXTextField txtSalary;
 
-    List<Customer> customerList = new ArrayList<>();
-
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         colId.setCellValueFactory(new PropertyValueFactory<>("id"));
@@ -146,6 +144,32 @@ public class AddCustomerFormController implements Initializable {
 
     @FXML
     void btnUpdateOnAction(ActionEvent event) {
+        Customer customer = new Customer(
+                txtId.getText(),
+                cmbTitle.getValue()+" "+txtName.getText(),
+                txtAddress.getText(),
+                Double.parseDouble(txtSalary.getText())
+        );
+
+        String SQL="UPDATE customer SET name=?, address=?, salary=? WHERE id=?";
+
+        try {
+            Connection connection = DBConnection.getInstance().getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(SQL);
+            preparedStatement.setObject(1,customer.getName());
+            preparedStatement.setObject(2,customer.getAddress());
+            preparedStatement.setObject(3,customer.getSalary());
+            preparedStatement.setObject(4,customer.getId());
+
+            boolean isUpdated = preparedStatement.executeUpdate() > 0;
+
+            if(isUpdated) {
+                new Alert(Alert.AlertType.CONFIRMATION,"Customer Updated").show();
+                reloadCustomerTable();
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
 
     }
 
