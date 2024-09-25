@@ -10,7 +10,7 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="738.0" prefWidth="608.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.AddCustomerFormController">
+<AnchorPane prefHeight="738.0" prefWidth="608.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.customer.CustomerFormController">
    <children>
       <JFXButton layoutX="416.0" layoutY="349.0" onAction="#btnClearOnAction" prefHeight="26.0" prefWidth="106.0" style="-fx-background-color: EEDF7A;" text="Clear" />
       <Label layoutX="228.0" layoutY="26.0" prefHeight="30.0" prefWidth="152.0" text="Customer Form">

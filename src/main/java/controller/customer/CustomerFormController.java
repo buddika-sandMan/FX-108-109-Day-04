@@ -1,4 +1,4 @@
-package controller;
+package controller.customer;
 
 import com.jfoenix.controls.JFXTextField;
 import db.DBConnection;
@@ -13,11 +13,9 @@ import model.Customer;
 
 import java.net.URL;
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.ResourceBundle;
 
-public class AddCustomerFormController implements Initializable {
+public class CustomerFormController implements Initializable {
 
     @FXML
     public ComboBox<String> cmbTitle;
@@ -51,6 +49,8 @@ public class AddCustomerFormController implements Initializable {
 
     @FXML
     private JFXTextField txtSalary;
+
+    CustomerService customerService = new CustomerController();
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -98,26 +98,13 @@ public class AddCustomerFormController implements Initializable {
                 Double.parseDouble(txtSalary.getText())
         );
 
-        try {
-            String SQL = "INSERT INTO customer VALUES(?,?,?,?)";
-            Connection connection = DBConnection.getInstance().getConnection();
-
-            PreparedStatement preparedStatement = connection.prepareStatement(SQL);
-            preparedStatement.setObject(1, customer.getId());
-            preparedStatement.setObject(2, customer.getName());
-            preparedStatement.setObject(3, customer.getAddress());
-            preparedStatement.setObject(4, customer.getSalary());
-
-            boolean isAdded = preparedStatement.executeUpdate() > 0;
-
-            if(isAdded) {
-                new Alert(Alert.AlertType.CONFIRMATION,"Customer Added").show();
-                reloadCustomerTable();
-            }
-
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
+        if(customerService.addCustomer(customer)){
+            new Alert(Alert.AlertType.INFORMATION).show();
+        } else {
+            new Alert(Alert.AlertType.CONFIRMATION).show();
         }
+
+        reloadCustomerTable();
     }
 
     @FXML
@@ -127,19 +114,14 @@ public class AddCustomerFormController implements Initializable {
 
     @FXML
     void btnDeleteOnAction(ActionEvent event) {
-        try {
-            boolean isDeleted = DBConnection.getInstance().getConnection().createStatement()
-                    .executeUpdate("DELETE FROM customer WHERE id='" + txtId.getText() + "'") > 0;
-
-            if(isDeleted) {
-                new Alert(Alert.AlertType.INFORMATION,"Successfully deleted").show();
-                reloadCustomerTable();
-            }
-
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
+        String id = txtId.getId();
+        if(customerService.deleteCustomer(id)){
+            new Alert(Alert.AlertType.INFORMATION).show();
+        } else {
+            new Alert(Alert.AlertType.CONFIRMATION).show();
         }
 
+        reloadCustomerTable();
     }
 
     @FXML
@@ -151,26 +133,13 @@ public class AddCustomerFormController implements Initializable {
                 Double.parseDouble(txtSalary.getText())
         );
 
-        String SQL="UPDATE customer SET name=?, address=?, salary=? WHERE id=?";
-
-        try {
-            Connection connection = DBConnection.getInstance().getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement(SQL);
-            preparedStatement.setObject(1,customer.getName());
-            preparedStatement.setObject(2,customer.getAddress());
-            preparedStatement.setObject(3,customer.getSalary());
-            preparedStatement.setObject(4,customer.getId());
-
-            boolean isUpdated = preparedStatement.executeUpdate() > 0;
-
-            if(isUpdated) {
-                new Alert(Alert.AlertType.CONFIRMATION,"Customer Updated").show();
-                reloadCustomerTable();
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
+        if(customerService.updateCustomer(customer)){
+            new Alert(Alert.AlertType.INFORMATION).show();
+        } else {
+            new Alert(Alert.AlertType.CONFIRMATION).show();
         }
 
+        reloadCustomerTable();
     }
 
     public void reloadCustomerTable(){
