@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+
+
+<AnchorPane prefHeight="693.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.item.ItemFormController">
+   <children>
+      <Label layoutX="256.0" layoutY="30.0" text="Item Form">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="79.0" opacity="0.29" stroke="BLACK" strokeType="INSIDE" width="600.0" />
+      <JFXTextField fx:id="txtCode" layoutX="300.0" layoutY="129.0" />
+      <JFXTextField fx:id="txtDescription" layoutX="300.0" layoutY="174.0" />
+      <JFXTextField fx:id="txtUnitPrice" layoutX="300.0" layoutY="218.0" />
+      <JFXTextField fx:id="txtQtyOnHand" layoutX="300.0" layoutY="269.0" />
+      <Label layoutX="211.0" layoutY="146.0" prefHeight="18.0" prefWidth="37.0" text="Code" />
+      <Label layoutX="211.0" layoutY="190.0" prefHeight="18.0" prefWidth="67.0" text="Description" />
+      <Label layoutX="213.0" layoutY="233.0" prefHeight="18.0" prefWidth="67.0" text="Unit Price" />
+      <Label layoutX="215.0" layoutY="282.0" prefHeight="18.0" prefWidth="67.0" text="Qty" />
+      <JFXButton layoutX="425.0" layoutY="329.0" onAction="#btnClearOnAction" prefHeight="26.0" prefWidth="106.0" style="-fx-background-color: EEDF7A;" text="Clear" />
+      <JFXButton layoutX="316.0" layoutY="329.0" onAction="#btnDeleteOnAction" prefHeight="26.0" prefWidth="106.0" style="-fx-background-color: E6D9A2;" text="Delete" />
+      <JFXButton layoutX="206.0" layoutY="329.0" onAction="#btnUpdateOnAction" prefHeight="26.0" prefWidth="106.0" style="-fx-background-color: D8A25E;" text="Update" />
+      <JFXButton layoutX="97.0" layoutY="329.0" onAction="#btnAddOnAction" prefHeight="26.0" prefWidth="106.0" ripplerFill="#aea057" style="-fx-background-color: A04747;" text="Add" />
+      <TableView fx:id="tblItem" layoutY="388.0" prefHeight="306.0" prefWidth="600.0">
+        <columns>
+          <TableColumn fx:id="colCode" prefWidth="91.20001220703125" text="Code" />
+          <TableColumn fx:id="colDescription" prefWidth="280.0" text="Description" />
+            <TableColumn fx:id="colUnitPrice" minWidth="0.0" prefWidth="122.4000244140625" text="Unit Price" />
+            <TableColumn fx:id="colQtyOnHand" prefWidth="106.4000244140625" text="Qty" />
+        </columns>
+      </TableView>
+   </children>
+</AnchorPane>

@@ -31,4 +31,13 @@ public class DashboardController {
         }
         stage.show();
     }
+
+    public void btnItemOnAction(ActionEvent actionEvent) {
+        try {
+            stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("/view/itemForm.fxml"))));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        stage.show();
+    }
 }
