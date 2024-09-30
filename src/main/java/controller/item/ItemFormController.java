@@ -128,28 +128,19 @@ public class ItemFormController implements Initializable {
         reloadItemTable();
     }
 
-    public void reloadItemTable(){
-        ObservableList<Item> itemObservableList = FXCollections.observableArrayList();
+    public void reloadItemTable() {
+        ObservableList<Item> allItems = service.getAllItems();
+        tblItem.setItems(allItems);
+    }
 
-        try {
-            Connection connection = DBConnection.getInstance().getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM item");
-            ResultSet resultSet = preparedStatement.executeQuery();
+//    public void searchItem() {
+//        String code = txtCode.getText();
+//        Item item = service.searchItem(code);
+//        tblItem.setItems(item);
+//    }
 
-            while (resultSet.next()){
-                Item item = new Item(
-                        resultSet.getString("code"),
-                        resultSet.getString("description"),
-                        resultSet.getDouble("unitPrice"),
-                        resultSet.getInt("qtyOnHand")
-                );
 
-                itemObservableList.add(item);
-                tblItem.setItems(itemObservableList);
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+    public void btnSearchOnAction(ActionEvent actionEvent) {
 
     }
 }

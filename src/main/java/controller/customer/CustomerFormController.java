@@ -142,28 +142,12 @@ public class CustomerFormController implements Initializable {
         reloadCustomerTable();
     }
 
-    public void reloadCustomerTable(){
-
-        ObservableList<Customer> customerObservableList = FXCollections.observableArrayList();
-
+    public void reloadCustomerTable() {
         try {
-            Connection connection = DBConnection.getInstance().getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM customer");
-            ResultSet resultSet = preparedStatement.executeQuery();
-
-            while (resultSet.next()){
-                Customer customer = new Customer(
-                        resultSet.getString("id"),
-                        resultSet.getString("name"),
-                        resultSet.getString("address"),
-                        resultSet.getDouble("salary")
-                );
-                customerObservableList.add(customer);
-                tblCustomerDetails.setItems(customerObservableList);
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
+            ObservableList<Customer> allCustomers = customerService.getAllCustomers();
+            tblCustomerDetails.setItems(allCustomers);
+        } catch (Exception ex) {
+            throw new RuntimeException(ex);
         }
     }
-
 }

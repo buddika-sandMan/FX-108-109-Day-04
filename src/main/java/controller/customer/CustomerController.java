@@ -1,85 +1,84 @@
 package controller.customer;
 
-import db.DBConnection;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import model.Customer;
+import util.CrudUtil;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class CustomerController implements CustomerService{
     @Override
     public boolean addCustomer(Customer customer) {
-        boolean isAdded;
+        String SQL = "INSERT INTO customer VALUES(?,?,?,?)";
         try {
-            String SQL = "INSERT INTO customer VALUES(?,?,?,?)";
-            Connection connection = DBConnection.getInstance().getConnection();
-
-            PreparedStatement preparedStatement = connection.prepareStatement(SQL);
-            preparedStatement.setObject(1, customer.getId());
-            preparedStatement.setObject(2, customer.getName());
-            preparedStatement.setObject(3, customer.getAddress());
-            preparedStatement.setObject(4, customer.getSalary());
-
-            isAdded = preparedStatement.executeUpdate() > 0;
+        CrudUtil.execute(
+                SQL,
+                customer.getId(),
+                customer.getName(),
+                customer.getAddress(),
+                customer.getSalary()
+        );
+        return true;
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-
-        if(isAdded) {
-            return true;
-        }
-
-        return false;
     }
 
     @Override
     public ObservableList<Customer> getAllCustomers() {
-        return null;
+        ObservableList<Customer> observableList = FXCollections.observableArrayList();
+        String SQL = "SELECT * FROM customer";
+
+        try {
+            ResultSet resultSet = CrudUtil.execute(SQL);
+
+            while (resultSet.next()) {
+                observableList.add(
+                        new Customer(
+                                resultSet.getString(1),
+                                resultSet.getString(2),
+                                resultSet.getString(3),
+                                resultSet.getDouble(4)
+                        )
+                );
+            }
+            return observableList;
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
     public boolean updateCustomer(Customer customer) {
         String SQL="UPDATE customer SET name=?, address=?, salary=? WHERE id=?";
-        boolean isUpdated;
         try {
-            Connection connection = DBConnection.getInstance().getConnection();
-
-            PreparedStatement preparedStatement = connection.prepareStatement(SQL);
-            preparedStatement.setObject(1,customer.getName());
-            preparedStatement.setObject(2,customer.getAddress());
-            preparedStatement.setObject(3,customer.getSalary());
-            preparedStatement.setObject(4,customer.getId());
-
-            isUpdated = preparedStatement.executeUpdate() > 0;
+            CrudUtil.execute(
+                    SQL,
+                    customer.getName(),
+                    customer.getAddress(),
+                    customer.getSalary(),
+                    customer.getId()
+            );
+            return true;
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        if(isUpdated){
-            return true;
-        }
-
-        return false;
     }
 
     @Override
     public boolean deleteCustomer(String id) {
-        boolean isDeleted;
+        String SQL = "DELETE FROM customer WHERE id='" +id+ "'";
         try {
-            isDeleted = DBConnection.getInstance().getConnection().createStatement()
-                    .executeUpdate("DELETE FROM customer WHERE id='" +id+ "'") > 0;
-
+            Object execute = CrudUtil.execute(SQL);
+            return true;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-
-        if(isDeleted){
-            return true;
-        }
-        return false;
     }
 
     @Override
