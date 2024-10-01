@@ -133,14 +133,14 @@ public class ItemFormController implements Initializable {
         tblItem.setItems(allItems);
     }
 
-//    public void searchItem() {
-//        String code = txtCode.getText();
-//        Item item = service.searchItem(code);
-//        tblItem.setItems(item);
-//    }
-
-
     public void btnSearchOnAction(ActionEvent actionEvent) {
+        Item item = service.searchItem(txtCode.getText());
 
+        if(item!=null) {
+            txtCode.setText(item.getCode());
+            txtDescription.setText(item.getDescription());
+            txtUnitPrice.setText(String.valueOf(item.getUnitPrice()));
+            txtQtyOnHand.setText(String.valueOf(item.getQtyOnHand()));
+        }
     }
 }

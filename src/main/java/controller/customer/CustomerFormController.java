@@ -150,4 +150,15 @@ public class CustomerFormController implements Initializable {
             throw new RuntimeException(ex);
         }
     }
+
+    public void btnSearchOnAction(ActionEvent actionEvent) {
+        Customer customer = customerService.searchCustomer(txtId.getText());
+
+        if(customer!=null) {
+            txtId.setText(customer.getId());
+            txtName.setText(customer.getName());
+            txtAddress.setText(customer.getAddress());
+            txtSalary.setText(String.valueOf(customer.getSalary()));
+        }
+    }
 }

@@ -10,11 +10,6 @@ import java.sql.SQLException;
 
 public class ItemController implements ItemService {
     @Override
-    public Item searchItem(String code) {
-        return null;
-    }
-
-    @Override
     public boolean addItem(Item item) {
         String SQL = "INSERT INTO item VALUES(?,?,?,?)";
 
@@ -85,5 +80,26 @@ public class ItemController implements ItemService {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    @Override
+    public Item searchItem(String code) {
+        String SQL = "SELECT * FROM item WHERE code='"+code+"'";
+
+        try {
+            ResultSet resultSet = CrudUtil.execute(SQL);
+
+            while (resultSet.next()) {
+                return new Item (
+                        resultSet.getString(1),
+                        resultSet.getString(2),
+                        resultSet.getDouble(3),
+                        resultSet.getInt(4)
+                );
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return null;
     }
 }

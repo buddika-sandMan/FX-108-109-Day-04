@@ -9,6 +9,7 @@ public class CrudUtil {
 
     public static <T>T execute(String SQL, Object... args) throws SQLException {
         PreparedStatement preparedStatement = DBConnection.getInstance().getConnection().prepareStatement(SQL);
+        System.out.println(SQL);
 
         for (int i=0; i< args.length; i++){
             preparedStatement.setObject(i+1, args[i]);

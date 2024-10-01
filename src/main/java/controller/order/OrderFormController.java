@@ -77,6 +77,11 @@ public class OrderFormController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         loadDateTime();
         loadCustomerIDs();
+        cmbCustomerId.getSelectionModel().selectedItemProperty().addListener(((observableValue, s, t1) -> {
+            if(t1!=null){
+                searchCustomer(t1);
+            }
+        }));
 
     }
 
@@ -101,6 +106,10 @@ public class OrderFormController implements Initializable {
         ObservableList<String> observableCustomerIds = FXCollections.observableArrayList(allCustomersIds);
 
         cmbCustomerId.setItems(observableCustomerIds);
+    }
+    
+    private void searchCustomer(String id) {
+        CustomerController.getInstance().searchCustomer(id);
     }
 
 }

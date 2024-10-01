@@ -91,6 +91,22 @@ public class CustomerController implements CustomerService{
 
     @Override
     public Customer searchCustomer(String id) {
+        String SQL = "SELECT * FROM customer WHERE id='"+id+"'";
+
+        try {
+            ResultSet resultSet = CrudUtil.execute(SQL);
+
+            while (resultSet.next()) {
+                return new Customer(
+                        resultSet.getString(1),
+                        resultSet.getString(2),
+                        resultSet.getString(3),
+                        resultSet.getDouble(4)
+                );
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
         return null;
     }
 
