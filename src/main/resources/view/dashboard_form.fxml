@@ -8,5 +8,6 @@
       <JFXButton layoutX="32.0" layoutY="47.0" onAction="#btnAddCustomerOnAction" text="Customer" />
       <JFXButton layoutX="142.0" layoutY="47.0" onAction="#btnViewCustomerOnAction" text="View Customer" />
       <JFXButton layoutX="261.0" layoutY="47.0" onAction="#btnItemOnAction" text="Item" />
+      <JFXButton layoutX="337.0" layoutY="47.0" onAction="#btnOrderOnAction" text="Order" />
    </children>
 </AnchorPane>

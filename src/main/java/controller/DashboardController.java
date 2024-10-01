@@ -40,4 +40,13 @@ public class DashboardController {
         }
         stage.show();
     }
+
+    public void btnOrderOnAction(ActionEvent actionEvent) {
+        try {
+            stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("/view/orderForm.fxml"))));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        stage.show();
+    }
 }

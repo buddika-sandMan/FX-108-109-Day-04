@@ -4,11 +4,19 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import model.Customer;
 import util.CrudUtil;
-
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class CustomerController implements CustomerService{
+
+    private static CustomerController instance;
+
+    private CustomerController() {}
+
+    public static CustomerController getInstance() {
+        return instance==null?instance=new CustomerController():instance;
+    }
+
     @Override
     public boolean addCustomer(Customer customer) {
         String SQL = "INSERT INTO customer VALUES(?,?,?,?)";
@@ -85,4 +93,15 @@ public class CustomerController implements CustomerService{
     public Customer searchCustomer(String id) {
         return null;
     }
+
+    public ObservableList<String> getAllCustomersIds() {
+        ObservableList<String> cusIdList = FXCollections.observableArrayList();
+        ObservableList<Customer> allCustomers = getAllCustomers();
+
+        allCustomers.forEach(obj -> cusIdList.add(obj.getId()));
+
+        return cusIdList;
+    }
+
+
 }

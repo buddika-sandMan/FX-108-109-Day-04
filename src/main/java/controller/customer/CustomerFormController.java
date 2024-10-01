@@ -50,7 +50,7 @@ public class CustomerFormController implements Initializable {
     @FXML
     private JFXTextField txtSalary;
 
-    CustomerService customerService = new CustomerController();
+    CustomerService customerService = CustomerController.getInstance();
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {

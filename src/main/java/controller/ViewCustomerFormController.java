@@ -1,2 +1,4 @@
-package controller;public class ViewCustomerFormController {
+package controller;
+
+public class ViewCustomerFormController {
 }
