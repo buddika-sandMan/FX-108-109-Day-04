@@ -1,6 +1,7 @@
 package controller.order;
 
 import controller.customer.CustomerController;
+import controller.item.ItemController;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -15,6 +16,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.util.Duration;
 import model.Customer;
+import model.Item;
 
 import java.net.URL;
 import java.text.SimpleDateFormat;
@@ -29,7 +31,7 @@ public class OrderFormController implements Initializable {
     private ComboBox<String> cmbCustomerId;
 
     @FXML
-    private ComboBox<?> cmbItemCode;
+    private ComboBox<String> cmbItemCode;
 
     @FXML
     private TableColumn<?, ?> colCode;
@@ -77,9 +79,16 @@ public class OrderFormController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         loadDateTime();
         loadCustomerIDs();
+        loadItemCodes();
         cmbCustomerId.getSelectionModel().selectedItemProperty().addListener(((observableValue, s, t1) -> {
             if(t1!=null){
                 searchCustomer(t1);
+            }
+        }));
+
+        cmbItemCode.getSelectionModel().selectedItemProperty().addListener(((observableValue, s, t1) -> {
+            if (t1!=null) {
+                searchItem(t1);
             }
         }));
 
@@ -109,7 +118,28 @@ public class OrderFormController implements Initializable {
     }
     
     private void searchCustomer(String id) {
-        CustomerController.getInstance().searchCustomer(id);
+        Customer customer = CustomerController.getInstance().searchCustomer(id);
+
+        if(customer!=null) {
+            txtCustomerName.setText(customer.getName());
+            txtCustomerAddress.setText(customer.getAddress());
+        }
+    }
+
+    private void loadItemCodes() {
+        List<String> allItemCodes = ItemController.getInstance().getAllItemCodes();
+        ObservableList<String> observableItemCodes = FXCollections.observableArrayList(allItemCodes);
+
+        cmbItemCode.setItems(observableItemCodes);
+    }
+
+    private void searchItem(String code) {
+        Item item = ItemController.getInstance().searchItem(code);
+
+        if(item!=null) {
+            txtDescription.setText(item.getDescription());
+            txtStock.setText(String.valueOf(item.getQtyOnHand()));
+        }
     }
 
 }

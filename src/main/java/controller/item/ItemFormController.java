@@ -50,7 +50,7 @@ public class ItemFormController implements Initializable {
     @FXML
     private JFXTextField txtUnitPrice;
 
-    ItemService service = new ItemController();
+    ItemService service = ItemController.getInstance();
 
 
     @Override
