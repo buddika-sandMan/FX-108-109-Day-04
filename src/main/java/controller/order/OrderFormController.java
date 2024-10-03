@@ -7,16 +7,15 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.util.Duration;
 import model.Customer;
 import model.Item;
+import util.Cart;
 
 import java.net.URL;
 import java.text.SimpleDateFormat;
@@ -27,6 +26,7 @@ import java.util.ResourceBundle;
 
 public class OrderFormController implements Initializable {
 
+    public TextField txtUnitPrice;
     @FXML
     private ComboBox<String> cmbCustomerId;
 
@@ -58,7 +58,7 @@ public class OrderFormController implements Initializable {
     private Label lblTime;
 
     @FXML
-    private TableView<?> tblOrderDetails;
+    private TableView<Cart> tblOrderDetails;
 
     @FXML
     private TextField txtCustomerAddress;
@@ -139,7 +139,35 @@ public class OrderFormController implements Initializable {
         if(item!=null) {
             txtDescription.setText(item.getDescription());
             txtStock.setText(String.valueOf(item.getQtyOnHand()));
+            txtUnitPrice.setText(String.valueOf(item.getUnitPrice()));
         }
     }
 
+    ObservableList<Cart> cart = FXCollections.observableArrayList();
+
+    public void btnAddToCartOnAction(ActionEvent actionEvent) {
+        colCode.setCellValueFactory(new PropertyValueFactory<>("code"));
+        colDescription.setCellValueFactory(new PropertyValueFactory<>("description"));
+        colQty.setCellValueFactory(new PropertyValueFactory<>("qty"));
+        colUnitPrice.setCellValueFactory(new PropertyValueFactory<>("unitPrice"));
+        colTotal.setCellValueFactory(new PropertyValueFactory<>("total"));
+
+        String code = cmbItemCode.getValue();
+        String  description = txtDescription.getText();
+        Integer qty = Integer.parseInt(txtQty.getText());
+        Double unitPrice = Double.parseDouble(txtUnitPrice.getText());
+        Double total = unitPrice * qty;
+
+        Integer stock = Integer.parseInt(txtStock.getText());
+
+        if(stock<qty){
+            new Alert(Alert.AlertType.WARNING, "Stock have only "+qty).show();
+        } else {
+            cart.add(new Cart(code, description,qty, unitPrice, total));
+            tblOrderDetails.setItems(cart);
+        }
+    }
+
+    public void btnOrderOnAction(ActionEvent actionEvent) {
+    }
 }
