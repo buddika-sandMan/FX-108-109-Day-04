@@ -20,7 +20,7 @@ public class OrderDetailsController {
     }
 
     public boolean addOrderDetails(OrderDetails orderDetails) {
-        String SQL = "INSERT INTO orderdetails VALUES(?,?,?,?)";
+        String SQL = "INSERT INTO orderdetail VALUES(?,?,?,?)";
         try {
             return CrudUtil.execute(
                     SQL,

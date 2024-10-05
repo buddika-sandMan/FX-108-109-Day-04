@@ -1,6 +1,8 @@
 package controller.order;
 
+import controller.item.ItemController;
 import db.DBConnection;
+import javafx.scene.control.Alert;
 import model.Order;
 
 import java.sql.Connection;
@@ -8,6 +10,12 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 public class OrderController {
+    private static OrderController instance;
+
+    private OrderController(){}
+
+    public static OrderController getInstance() { return instance==null?instance=new OrderController():instance;}
+
     public boolean placeOrder(Order order) throws SQLException {
         Connection connection = DBConnection.getInstance().getConnection();
         String SQL = "INSERT INTO orders VALUES(?,?,?)";
@@ -19,6 +27,15 @@ public class OrderController {
 
         if(isOrderAdded) {
             boolean addedOrderDetails = new OrderDetailsController().addOrderDetails(order.getOrderDetailsList());
+            if (addedOrderDetails){
+                boolean isUpdatedStock = ItemController.getInstance().updateStock(order.getOrderDetailsList());
+                if (isUpdatedStock) {
+                    new Alert(Alert.AlertType.INFORMATION,"Oder placed.").show();
+                    return true;
+                }
+            }
         }
+        new Alert(Alert.AlertType.ERROR,"Order NOT placed").show();
+        return false;
          }
     }

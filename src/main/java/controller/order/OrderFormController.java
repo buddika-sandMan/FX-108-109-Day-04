@@ -20,6 +20,7 @@ import model.OrderDetails;
 import util.Cart;
 
 import java.net.URL;
+import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -202,7 +203,11 @@ public class OrderFormController implements Initializable {
         });
 
         Order order = new Order(orderID, date, customerID, orderDetailsArrayList);
-        System.out.println(order);
+        try {
+            OrderController.getInstance().placeOrder(order);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
 
     }
 }
