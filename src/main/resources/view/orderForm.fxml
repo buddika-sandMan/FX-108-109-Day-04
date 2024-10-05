@@ -37,13 +37,13 @@
       <ComboBox fx:id="cmbCustomerId" layoutX="27.0" layoutY="133.0" prefWidth="150.0" promptText="Customer ID" />
       <ComboBox fx:id="cmbItemCode" layoutX="27.0" layoutY="189.0" prefWidth="150.0" promptText="Item Code" />
       <Label layoutX="36.0" layoutY="238.0" prefHeight="18.0" prefWidth="54.0" text="Net Total" />
-      <Label layoutX="102.0" layoutY="238.0" prefHeight="18.0" prefWidth="54.0" text="00.00" />
+      <Label fx:id="lblNetTotal" layoutX="102.0" layoutY="238.0" prefHeight="18.0" prefWidth="54.0" text="00.00" />
       <Label layoutX="27.0" layoutY="99.0" text="Order ID : " />
-      <Label fx:id="lblOrderId" layoutX="90.0" layoutY="99.0" text="C001" />
       <Label layoutX="201.0" layoutY="99.0" text="Date : " />
       <Label fx:id="lblDate" layoutX="245.0" layoutY="99.0" text="01/01/2000" />
       <Label layoutX="398.0" layoutY="99.0" text="Time : " />
       <Label fx:id="lblTime" layoutX="441.0" layoutY="99.0" text="2.44 PM" />
       <TextField fx:id="txtUnitPrice" layoutX="397.0" layoutY="189.0" prefHeight="26.0" prefWidth="74.0" promptText="Unit Price" />
+      <TextField fx:id="txtOrderId" layoutX="90.0" layoutY="94.0" prefHeight="26.0" prefWidth="62.0" promptText="Order ID" />
    </children>
 </AnchorPane>

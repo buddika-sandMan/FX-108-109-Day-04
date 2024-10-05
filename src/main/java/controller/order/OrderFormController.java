@@ -15,11 +15,15 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.util.Duration;
 import model.Customer;
 import model.Item;
+import model.Order;
+import model.OrderDetails;
 import util.Cart;
 
 import java.net.URL;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -27,6 +31,8 @@ import java.util.ResourceBundle;
 public class OrderFormController implements Initializable {
 
     public TextField txtUnitPrice;
+    public Label lblNetTotal;
+    public TextField txtOrderId;
     @FXML
     private ComboBox<String> cmbCustomerId;
 
@@ -80,6 +86,7 @@ public class OrderFormController implements Initializable {
         loadDateTime();
         loadCustomerIDs();
         loadItemCodes();
+
         cmbCustomerId.getSelectionModel().selectedItemProperty().addListener(((observableValue, s, t1) -> {
             if(t1!=null){
                 searchCustomer(t1);
@@ -165,9 +172,37 @@ public class OrderFormController implements Initializable {
         } else {
             cart.add(new Cart(code, description,qty, unitPrice, total));
             tblOrderDetails.setItems(cart);
+            calTotal();
         }
     }
 
+    public void calTotal() {
+        Double netTotal = 0.0;
+        for(Cart cart : cart) {
+            netTotal += cart.getTotal();
+        }
+        lblNetTotal.setText(netTotal.toString());
+    }
+
     public void btnOrderOnAction(ActionEvent actionEvent) {
+        String orderID = txtOrderId.getText();
+        LocalDate date = LocalDate.parse(lblDate.getText());
+        String customerID = cmbCustomerId.getValue();
+
+        ArrayList<OrderDetails> orderDetailsArrayList = new ArrayList<>();
+
+        cart.forEach(obj -> {
+            orderDetailsArrayList.add(
+                    new OrderDetails(
+                            txtOrderId.getText(),
+                            obj.getCode(),
+                            obj.getQty(),
+                            0.0)
+            );
+        });
+
+        Order order = new Order(orderID, date, customerID, orderDetailsArrayList);
+        System.out.println(order);
+
     }
 }
