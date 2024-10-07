@@ -1,10 +1,9 @@
 package controller.item;
 
-import db.DBConnection;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import model.Item;
-import model.OrderDetails;
+import dto.Item;
+import dto.OrderDetails;
 import util.CrudUtil;
 import java.sql.ResultSet;
 import java.sql.SQLException;

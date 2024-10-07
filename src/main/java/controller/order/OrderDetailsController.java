@@ -1,7 +1,6 @@
 package controller.order;
 
-import model.Order;
-import model.OrderDetails;
+import dto.OrderDetails;
 import util.CrudUtil;
 
 import java.sql.SQLException;

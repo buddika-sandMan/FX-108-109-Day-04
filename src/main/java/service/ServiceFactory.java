@@ -16,7 +16,6 @@ public class ServiceFactory {
     public <T extends SuperService>T getServiceType(ServiceType type) {
         switch(type) {
             case CUSTOMER:return (T) new CustomerServiceImpl();
-            break;
             case ITEM:return (T) new ItemServiceImpl();
         }
         return null;

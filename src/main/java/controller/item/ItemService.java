@@ -1,8 +1,8 @@
 package controller.item;
 
 import javafx.collections.ObservableList;
-import model.Item;
-import model.OrderDetails;
+import dto.Item;
+import dto.OrderDetails;
 
 import java.util.List;
 

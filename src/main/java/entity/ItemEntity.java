@@ -1,4 +1,4 @@
-package model;
+package entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -9,7 +9,7 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class Item {
+public class ItemEntity {
     private String code;
     private String description;
     private Double unitPrice;

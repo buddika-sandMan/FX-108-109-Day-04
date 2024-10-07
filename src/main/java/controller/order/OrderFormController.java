@@ -13,10 +13,10 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.util.Duration;
-import model.Customer;
-import model.Item;
-import model.Order;
-import model.OrderDetails;
+import dto.Customer;
+import dto.Item;
+import dto.Order;
+import dto.OrderDetails;
 import util.Cart;
 
 import java.net.URL;

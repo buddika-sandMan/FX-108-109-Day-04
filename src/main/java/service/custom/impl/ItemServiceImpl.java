@@ -1,8 +1,8 @@
 package service.custom.impl;
 
 import javafx.collections.ObservableList;
-import model.Item;
-import model.OrderDetails;
+import dto.Item;
+import dto.OrderDetails;
 import service.custom.ItemService;
 
 import java.util.List;

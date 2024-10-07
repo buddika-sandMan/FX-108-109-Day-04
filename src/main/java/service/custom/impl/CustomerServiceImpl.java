@@ -1,15 +1,25 @@
 package service.custom.impl;
 
+import entity.CustomerEntity;
 import javafx.collections.ObservableList;
-import model.Customer;
+import dto.Customer;
+import org.modelmapper.ModelMapper;
+import repository.DaoFactory;
+import repository.cusotm.CustomerDao;
 import service.custom.CustomerService;
+import util.DaoType;
 
 import java.util.List;
 
 public class CustomerServiceImpl implements CustomerService {
     @Override
     public boolean addCustomer(Customer customer) {
-        return false;
+        System.out.println("service  "+customer);
+
+        CustomerEntity entity = new ModelMapper().map(customer, CustomerEntity.class);
+        CustomerDao repository = DaoFactory.getInstance().getDaoType(DaoType.CUSTOMER);
+
+        return repository.save(entity);
     }
 
     @Override
